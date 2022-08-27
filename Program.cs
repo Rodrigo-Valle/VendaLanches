@@ -1,7 +1,22 @@
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore;
+using VendaLanches.Context;
+using VendaLanches.Repositories.Interfaces;
+using VendaLanches.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connetionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContextPool<AppDbContext>(options =>
+            options.UseMySql(connetionString, ServerVersion.AutoDetect(connetionString))
+        );
+
+builder.Services.AddTransient<ILancheRepository, LancheRepository>();
+builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+
 
 var app = builder.Build();
 
