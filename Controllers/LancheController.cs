@@ -14,13 +14,64 @@ public class LancheController : Controller
     {
         _lancheRepository = lancheRepository;
     }
-    public IActionResult List() 
+    public IActionResult List(string categoria) 
     {
-        var lanches = _lancheRepository.Lanches;
-        var lancheList = new LancheListViewModel();
-        lancheList.Lanches = lanches;
-        lancheList.CategoriaAtual = "Categoria";
+        IEnumerable<Lanche> lanches;
+        string categoriaAtual = string.Empty;
 
-        return View(lancheList);
+        if(string.IsNullOrEmpty(categoria))
+        {
+            lanches = _lancheRepository.Lanches.OrderBy(l => l.LancheId);
+            categoriaAtual = "Todos os lanches";
+        }
+        else
+        {
+            lanches = _lancheRepository.Lanches
+                .Where(l => l.Categoria.CategoriaNome.Equals(categoria))
+                .OrderBy(l => l.Nome);
+
+            categoriaAtual = categoria;
+        }
+
+        var lanchesList = new LancheListViewModel
+        {
+            Lanches = lanches,
+            CategoriaAtual = categoriaAtual
+        };
+
+        return View(lanchesList);
     }
+
+    public IActionResult Details(int lancheId) 
+    {
+        var lanche = _lancheRepository.Lanches.FirstOrDefault(l => l.LancheId == lancheId);
+        return View(lanche);
+    }
+
+    public ViewResult Search(string searchString)
+    {
+        IEnumerable<Lanche> lanches;
+        string categoriaAtual = string.Empty;
+
+        if(string.IsNullOrEmpty(searchString))
+        {
+            lanches = _lancheRepository.Lanches.OrderBy(l => l.LancheId);
+            categoriaAtual = "Todos os lanches";
+        }
+        else
+        {
+            lanches = _lancheRepository.Lanches
+                .Where(l => l.Nome.ToLower().Contains(searchString.ToLower()));
+
+            if (lanches.Any()) categoriaAtual = "Lanches";
+            else categoriaAtual = "nenhum lanche encontrado";
+        }
+
+        return View("~/Views/Lanche/List.cshtml", new LancheListViewModel
+        {
+            Lanches = lanches,
+            CategoriaAtual = categoriaAtual
+        });
+    }
+
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VendaLanches.Context;
 
@@ -10,9 +11,10 @@ using VendaLanches.Context;
 namespace VendaLanches.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220828015351_CarrinhoCompraItem")]
+    partial class CarrinhoCompraItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,98 +111,6 @@ namespace VendaLanches.Migrations
                     b.ToTable("Lanches");
                 });
 
-            modelBuilder.Entity("VendaLanches.Models.Pedido", b =>
-                {
-                    b.Property<int>("PedidoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Cep")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
-
-                    b.Property<string>("Cidade")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Endereco1")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Endereco2")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Estado")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<DateTime?>("PedidoEntregueEm")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("PedidoEnviado")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<decimal>("PedidoTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Sobrenome")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
-
-                    b.Property<int>("TotalItensPedido")
-                        .HasColumnType("int");
-
-                    b.HasKey("PedidoId");
-
-                    b.ToTable("Pedidos");
-                });
-
-            modelBuilder.Entity("VendaLanches.Models.PedidoDetalhe", b =>
-                {
-                    b.Property<int>("PedidoDetalheId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("LancheId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Preco")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.HasKey("PedidoDetalheId");
-
-                    b.HasIndex("LancheId");
-
-                    b.HasIndex("PedidoId");
-
-                    b.ToTable("PedidoDetalhes");
-                });
-
             modelBuilder.Entity("VendaLanches.Models.CarrinhoCompraItem", b =>
                 {
                     b.HasOne("VendaLanches.Models.Lanche", "Lanche")
@@ -221,33 +131,9 @@ namespace VendaLanches.Migrations
                     b.Navigation("Categoria");
                 });
 
-            modelBuilder.Entity("VendaLanches.Models.PedidoDetalhe", b =>
-                {
-                    b.HasOne("VendaLanches.Models.Lanche", "Lanche")
-                        .WithMany()
-                        .HasForeignKey("LancheId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VendaLanches.Models.Pedido", "Pedido")
-                        .WithMany("PedidoItens")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lanche");
-
-                    b.Navigation("Pedido");
-                });
-
             modelBuilder.Entity("VendaLanches.Models.Categoria", b =>
                 {
                     b.Navigation("Lanches");
-                });
-
-            modelBuilder.Entity("VendaLanches.Models.Pedido", b =>
-                {
-                    b.Navigation("PedidoItens");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore;
 using VendaLanches.Context;
 using VendaLanches.Repositories.Interfaces;
 using VendaLanches.Repositories;
+using VendaLanches.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +16,12 @@ builder.Services.AddDbContextPool<AppDbContext>(options =>
 
 builder.Services.AddTransient<ILancheRepository, LancheRepository>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
 
 
 var app = builder.Build();
@@ -32,8 +38,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "categoriaFiltro",
+    pattern: "Lanche/{action}/{categoria?}",
+    defaults: new { Controller = "Lanche", action = "List"}
+);
 
 app.MapControllerRoute(
     name: "default",
