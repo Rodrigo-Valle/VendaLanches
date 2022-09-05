@@ -14,9 +14,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-var connetionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = new MySqlConnector.MySqlConnectionStringBuilder()
+    {
+        Server = "localhost",
+        UserID = "root",
+        Password = builder.Configuration["MySQLPass"],
+        Database = "lanches"
+    }.ToString();
+
 builder.Services.AddDbContextPool<AppDbContext>(options =>
-            options.UseMySql(connetionString, ServerVersion.AutoDetect(connetionString))
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
         );
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
