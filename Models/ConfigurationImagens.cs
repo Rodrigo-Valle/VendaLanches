@@ -1,7 +1,5 @@
-﻿namespace VendaLanches.Models
+﻿namespace VendaLanches.Models;
+public class ConfigurationImagens
 {
-    public class ConfigurationImagens
-    {
-        public string NomePastaImagensProdutos { get; set; }
-    }
+    public string NomePastaImagensProdutos { get; set; }
 }

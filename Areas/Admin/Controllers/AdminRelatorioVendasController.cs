@@ -1,40 +1,38 @@
 ﻿using VendaLanches.Areas.Admin.Servicos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace VendaLanches.Areas.Admin.Controllers
+namespace VendaLanches.Areas.Admin.Controllers;
+[Area("Admin")]
+public class AdminRelatorioVendasController : Controller
 {
-    [Area("Admin")]
-    public class AdminRelatorioVendasController : Controller
+    private readonly RelatorioVendasService relatorioVendasService;
+
+    public AdminRelatorioVendasController(RelatorioVendasService _relatorioVendasService)
     {
-        private readonly RelatorioVendasService relatorioVendasService;
+        relatorioVendasService = _relatorioVendasService;
+    }
 
-        public AdminRelatorioVendasController(RelatorioVendasService _relatorioVendasService)
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    public async Task<IActionResult> RelatorioVendasSimples(DateTime? minDate,
+        DateTime? maxDate)
+    {
+        if (!minDate.HasValue)
         {
-            relatorioVendasService = _relatorioVendasService;
+            minDate = new DateTime(DateTime.Now.Year, 1, 1);
+        }
+        if (!maxDate.HasValue)
+        {
+            maxDate = DateTime.Now;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        ViewData["minDate"] = minDate.Value.ToString("yyyy-MM-dd");
+        ViewData["maxDate"] = maxDate.Value.ToString("yyyy-MM-dd");
 
-        public async Task<IActionResult> RelatorioVendasSimples(DateTime? minDate,
-            DateTime? maxDate)
-        {
-            if (!minDate.HasValue)
-            {
-                minDate = new DateTime(DateTime.Now.Year,1, 1);
-            }
-            if (!maxDate.HasValue)
-            {
-                maxDate = DateTime.Now;
-            }
-
-            ViewData["minDate"] = minDate.Value.ToString("yyyy-MM-dd");
-            ViewData["maxDate"] = maxDate.Value.ToString("yyyy-MM-dd");
-
-            var result = await relatorioVendasService.FindByDateAsync(minDate, maxDate);
-            return View(result);
-        }
+        var result = await relatorioVendasService.FindByDateAsync(minDate, maxDate);
+        return View(result);
     }
 }

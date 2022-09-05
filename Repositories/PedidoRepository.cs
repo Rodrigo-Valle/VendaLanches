@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using VendaLanches.Context;
 using VendaLanches.Models;
 using VendaLanches.Repositories.Interfaces;
@@ -26,9 +22,9 @@ public class PedidoRepository : IPedidoRepository
 
         var carrinhoCompraItens = _carrinhoCompra.CarrinhoCompraItems;
 
-        foreach(var item in carrinhoCompraItens)
+        foreach (var item in carrinhoCompraItens)
         {
-            var pedidoDetalhe =new PedidoDetalhe()
+            var pedidoDetalhe = new PedidoDetalhe()
             {
                 Quantidade = item.Quantidade,
                 LancheId = item.Lanche.LancheId,

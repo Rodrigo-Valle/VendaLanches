@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using VendaLanches.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using VendaLanches.Repositories.Interfaces;
 using VendaLanches.ViewModels;
 

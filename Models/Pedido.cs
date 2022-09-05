@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VendaLanches.Models;
-    public class Pedido
+public class Pedido
 {
     public int PedidoId { get; set; }
 

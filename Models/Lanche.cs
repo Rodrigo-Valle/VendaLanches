@@ -26,7 +26,7 @@ public class Lanche
 
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     [Display(Name = "Preço")]
-    [Column(TypeName ="decimal(10,2)")]
+    [Column(TypeName = "decimal(10,2)")]
     [Range(1, 999.99, ErrorMessage = "O preço deve estar entre 1 e 999.99")]
     public decimal Preco { get; set; }
 
@@ -38,10 +38,10 @@ public class Lanche
 
     [Display(Name = "Preferido?")]
     public bool LanchePreferido { get; set; }
-    
+
     [Display(Name = "Estoque?")]
     public bool Estoque { get; set; }
-    
+
     public int CategoriaId { get; set; }
     public virtual Categoria Categoria { get; set; }
 }
