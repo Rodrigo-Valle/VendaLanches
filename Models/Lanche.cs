@@ -15,12 +15,12 @@ public class Lanche
     public string Nome { get; set; }
 
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    [Display(Name = "Nome do Lanche")]
+    [Display(Name = "Descricao Curta")]
     [StringLength(200, MinimumLength = 20, ErrorMessage = "O campo {0} deve ter no minimo {1} e no máximo {2} caracteres")]
     public string DescricaoCurta { get; set; }
 
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    [Display(Name = "Nome do Lanche")]
+    [Display(Name = "Descricao Longa")]
     [StringLength(400, MinimumLength = 20, ErrorMessage = "O campo {0} deve ter no minimo {1} e no máximo {2} caracteres")]
     public string DescricaoLonga { get; set; }
 

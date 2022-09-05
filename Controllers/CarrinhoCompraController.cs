@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VendaLanches.Models;
 using VendaLanches.Repositories.Interfaces;
@@ -31,6 +32,7 @@ public class CarrinhoCompraController : Controller
         return View(carrinhoCompraVM);
     }
 
+    [Authorize]
     public IActionResult AdicionarAoCarrinho(int lancheId)
     {
         var lanche = _lancheRepository.Lanches.FirstOrDefault(l => l.LancheId == lancheId);
@@ -42,6 +44,8 @@ public class CarrinhoCompraController : Controller
         return RedirectToAction("Index");
     }
 
+
+    [Authorize]
     public IActionResult RemoverDoCarrinho(int lancheId)
     {
         var lanche = _lancheRepository.Lanches.FirstOrDefault(l => l.LancheId == lancheId);
